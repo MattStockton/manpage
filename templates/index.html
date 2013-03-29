@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"">
+	
+	<title>ArgFoo</title>
+
+	<link rel="icon" type="image/png" href="static/images/favicon.png">
+	
+	{% include 'ga.script' %}
+	
+</head>
+<body class="login">
+	<!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
+
+	<div id="search">
+		<input type="text" class="js-command-box"/>
+	</div>
+	<div id="search_results">
+		<table id="search_results_table">
+		</table>
+	</div>
+</body>
+
+<script src="static/js/jquery-1.8.2.min.js"></script>
+<script src="static/js/jquery-ui-1.8.24.custom.min.js"></script>
+<script src="static/js/underscore-min.js"></script>
+
+<script>
+$(document).ready(function(){
+	var row_template = _.template('<tr><td><%= arg %></td><td><%= description %></td></tr>');
+	
+    $(".js-command-box").keyup(function(e){
+    	if(e.keyCode == 13){
+    		var command = $(".js-command-box").val();
+    		
+    		if(search){
+    			$.post("/search", { command : command},
+    					function(data){
+    						if(data.success){
+    							$("#search_results_table").empty();
+    							_.each(data.used_args, function(cur_arg){
+    								$("#search_results_table").append(row_template({ arg : cur_arg[0], description : cur_arg[1]}));
+    							});	
+    						}
+    					}
+    			);
+    		}
+    	}
+    });
+});
+</script>
+
+</html>
