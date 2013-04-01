@@ -1,15 +1,16 @@
 import requests, re
 from BeautifulSoup import BeautifulSoup
 
-class FlagInfo(object):
+class OptionInfo(object):
     @staticmethod
-    def is_possible_flag(flag):
-        return isinstance(flag, basestring) and (flag.startswith('--') or flag.startswith('-'))
+    def is_possible_option(option):
+        return isinstance(option, basestring) and (option.startswith('--') or option.startswith('-'))
     
     @staticmethod
-    def split_into_possible_flags(options):
-        possible_flags = re.split(',|/|\=|\[| ',options)
-        return [flag for flag in possible_flags if FlagInfo.is_possible_flag(flag)]
+    def split_into_possible_options(options):
+        # Regex for splitting out into possible options. Should tighten this up, and look at more manpages
+        possible_options = re.split('\\n|\<|\>|,|/|\=|\[| ', options)
+        return [option for option in possible_options if OptionInfo.is_possible_option(option)]
 
 class ManPageRetriever(object):
     """A class to retrieve man page information"""
@@ -30,16 +31,19 @@ class ManPageRetriever(object):
         
         doc = BeautifulSoup(req.text)
         
-        # Find all <dt> elements that start with posisble flags
-        command_options_elements = doc.findAll(lambda tag : tag.name == 'dt' and FlagInfo.is_possible_flag(tag.text))
-        # Assume that actual flags have an adjacent element with the description, if not, assume that it's not a flag
-        # TODO MSS - Need to look into -m option for grep
-        options_with_descriptions  = [ (element.text, element.nextSibling.contents) for element in command_options_elements if element.nextSibling]
+        # Find all <dt> elements whose text passes as a possible option
+        matching_elements = doc.findAll(lambda tag : tag.name == 'dt' and OptionInfo.is_possible_option(tag.text))
+        # Assume that actual options have an adjacent element with the description, if not, assume that it's not an option
+        elements_with_siblings  = [ (element, element.nextSibling) for element in matching_elements if element.nextSibling]
 
-        # Store all assumed permutations of the flag along with description
-        for (option, description) in options_with_descriptions:
-            for cur_option in FlagInfo.split_into_possible_flags(option):
-                self.option_to_description_map[cur_option] = description
+        for (element, sibling_element) in elements_with_siblings:
+            # Generate full text version of the option by joining all sub-elements
+            option_text = "".join([str(part) for part in element.contents])
+            # Generate full text version of the description
+            option_description = "".join([str(part) for part in sibling_element.contents])
+            # Store information for all possible permutations of the option
+            for cur_option in OptionInfo.split_into_possible_options(option_text):
+                self.option_to_description_map[cur_option] = (option_text, option_description)
     
-    def normalized_description_for(self, option):
-        return "".join([str(html_element) for html_element in self.option_to_description_map.get(option,["Argument Not Found"])])
+    def normalized_result_for(self, option):
+        return self.option_to_description_map.get(option,(option, "Argument Not Found"))

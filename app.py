@@ -1,6 +1,6 @@
-import requests, sys, os
-from utils import ManPageRetriever, FlagInfo
-from flask import Flask, request, session, redirect, url_for, render_template, flash
+import os
+from utils import ManPageRetriever, OptionInfo
+from flask import Flask, request, render_template
 from flask.helpers import jsonify
 
 app = Flask(__name__)
@@ -36,10 +36,10 @@ def search():
     if man_page.is_error:
         return jsonify(success=False)
 
-    # Grab the possible flags in our search
-    command_flags = [flag for flag in FlagInfo.split_into_possible_flags(command)]
-    # Find the descriptions of the flags we used in our search
-    used_args = [(option, man_page.normalized_description_for(option)) for option in command_flags]
+    # Grab the possible options in our search
+    command_options = [flag for flag in OptionInfo.split_into_possible_options(command)]
+    # Find the descriptions of the options we used in our search
+    used_args = [man_page.normalized_result_for(option) for option in command_options]
 
     return jsonify(success=True, used_args=used_args)
 
