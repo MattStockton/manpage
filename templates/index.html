@@ -5,50 +5,113 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"">
 	
-	<title>ArgFoo</title>
+	<title>ManPage.me</title>
+
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 
 	<link rel="icon" type="image/png" href="static/images/favicon.png">
+	<link type="text/css" rel="stylesheet" href="static/css/app.css"/>
 	
 	{% include 'ga.script' %}
 	
 </head>
-<body class="login">
+<body>
 	<!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 
-	<div id="search">
-		<input type="text" class="js-command-box"/>
+	<span id="about_manpage" class="link-action"><a href="#about" class="js-manpage-about">what is this?</a>
+	</span>
+	<div class="about-manpage">
+		<div class="about-manpage-inner">
+			<p>This is a small experiment made by <a href="http://mattstockton.com" target="_blank">Matt Stockton</a> to play around with Flask, Python, Heroku, and various libraries. </p>
+			<p>manPage.me is a quick way to understand arguments being passed to linux commands. Instead of grep'ing through a manpage, just type the command here and see what each argument does.</p>
+			<p>manPage.me grabs information from the man pages hosted on linux.die.net</p>
+			<p>Some queries might not work well for you. The regex / parsing is a bit dumb right now, and I'm not handling piped commmands or other fancy things yet. Drop me an email if you have suggestions or questions.</p>
+			<p><a href="https://github.com/MattStockton/manpage" target="_blank" class="fork-link">Fork the project on GitHub</a></p>
+		</div>
 	</div>
+	
+
+
+	<div id="search_header">$ manPage.me</div>
+	<form class="form-wrapper cf js-command-form">
+        <input type="text" class="js-command-box" placeholder="ex:  curl --limit-rate 20K -m 10 https://www.google.com" required>
+        <button type="submit">Search</button>
+    </form>
+    <div id="search_suggestions" class="link-action">Try an example for a <a href="#curl" class="js-curl-example">curl</a> , <a href="#grep" class="js-grep-example">grep</a> , or <a href="#ls" class="js-ls-example">ls</a> command</div>
+
+	
 	<div id="search_results">
-		<table id="search_results_table">
-		</table>
 	</div>
 </body>
 
 <script src="static/js/jquery-1.8.2.min.js"></script>
 <script src="static/js/jquery-ui-1.8.24.custom.min.js"></script>
 <script src="static/js/underscore-min.js"></script>
+<script src="static/js/spin.min.js"></script>
 
 <script>
 $(document).ready(function(){
-	var row_template = _.template('<tr><td><%= arg %></td><td><%= description %></td></tr>');
+	var row_template = _.template('<div class="search-row"><div class="search-option"><%= arg %></div>' +
+			'<div class="search-description"><%= description %></div></div>');
 	
-    $(".js-command-box").keyup(function(e){
-    	if(e.keyCode == 13){
-    		var command = $(".js-command-box").val();
-    		
-    		if(search){
-    			$.post("/search", { command : command},
-    					function(data){
-    						if(data.success){
-    							$("#search_results_table").empty();
-    							_.each(data.used_args, function(cur_arg){
-    								$("#search_results_table").append(row_template({ arg : cur_arg[0], description : cur_arg[1]}));
-    							});	
-    						}
-    					}
-    			);
-    		}
-    	}
+	var show_error = function(){
+		$("#search_results").append(row_template({ arg : "There was a problem searching", description : "Sorry, we had a problem with your search. Please try again"}));
+	};
+	
+    $(".js-command-form").submit(function(){
+   		var command = $(".js-command-box").val();
+   		
+   		if(command){
+   	   		$("#search_results").empty();
+   	   		
+	   	   	var opts = {
+	   	   	  color: '#0A67A3'
+	   	   	};
+   	   		
+   	   		var target = document.getElementById('search_results');
+   	   		var spinner = new Spinner(opts).spin(target);
+   	   		
+   			$.post("/search", { command : command},
+   				function(data){
+   					if(data.success){
+   						_.each(data.used_args, function(cur_arg){
+   							$("#search_results").append(row_template({ arg : cur_arg[0], description : cur_arg[1]}));
+   						});	
+   					} else {
+   						show_error();
+   					}
+   					spinner.stop();
+   			}).fail(function(){
+   				spinner.stop();
+   				show_error();
+   			});	
+ 
+   		}
+   		   		
+   		return false;
+    });
+    
+    $(".js-curl-example").click(function(){
+    	$(".js-command-box").val("curl --limit-rate 20K -m 10 https://www.google.com");
+    	$(".js-command-form").submit();
+    	return false;
+    });
+    
+    $(".js-grep-example").click(function(){
+    	$(".js-command-box").val("grep -A 3 -i \"example\" demo_text");
+    	$(".js-command-form").submit();
+    	return false;
+    });
+  
+    $(".js-ls-example").click(function(){
+    	$(".js-command-box").val("ls -ltra");
+    	$(".js-command-form").submit();
+    	return false;
+    });   
+    
+    $(".js-manpage-about").click(function(){
+    	$(".about-manpage").toggle();
+    	return false;
     });
 });
 </script>

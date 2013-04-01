@@ -2,15 +2,34 @@ import requests, re
 from BeautifulSoup import BeautifulSoup
 
 class OptionInfo(object):
+    
+    @staticmethod 
+    def is_dash_option(option):
+        return isinstance(option, basestring) and option.startswith('-') and not option.startswith('--')
+    
+    @staticmethod
+    def is_dash_dash_option(option):
+        return isinstance(option, basestring) and option.startswith('--')
+    
     @staticmethod
     def is_possible_option(option):
-        return isinstance(option, basestring) and (option.startswith('--') or option.startswith('-'))
+        return OptionInfo.is_dash_dash_option(option) or OptionInfo.is_dash_option(option)
     
     @staticmethod
     def split_into_possible_options(options):
         # Regex for splitting out into possible options. Should tighten this up, and look at more manpages
-        possible_options = re.split('\\n|\<|\>|,|/|\=|\[| ', options)
-        return [option for option in possible_options if OptionInfo.is_possible_option(option)]
+        possible_options = re.split('\\n|\<|\>|,|/|\=|\[| ', options)  
+        return_options = []
+              
+        for cur_option in possible_options:
+            if OptionInfo.is_dash_dash_option(cur_option):
+                return_options.append(cur_option)
+            elif OptionInfo.is_dash_option(cur_option):
+                # If its a dash option, we need to separate out grouped options
+                return_options.extend(["-" + new_option for new_option in list(cur_option[1:])])
+        
+        return return_options
+        
 
 class ManPageRetriever(object):
     """A class to retrieve man page information"""

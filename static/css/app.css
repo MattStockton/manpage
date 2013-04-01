@@ -1,0 +1,225 @@
+#search_results {
+    width: 750px;
+    margin: 0px auto;
+    min-height: 100px;
+}
+
+.search-option {
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #0A67A3;
+}
+
+.search-description {
+    margin-left: 20px;
+    margin-bottom: 20px;
+    font-size: 17px;
+}
+
+#search_header {
+    margin: 0px auto;
+    text-align: center;
+    font: bold 45px 'Source Sans Pro', sans-serif;
+    color: #0A67A3;
+}
+
+#search_suggestions {
+    margin: 15px auto 25px auto;
+    text-align: center;
+    font: 17px 'Source Sans Pro', sans-serif;
+    color: #0A67A3;
+}
+
+.link-action a {
+    text-decoration: none;
+    font-weight: bold;
+    color: #3E97D1;
+}
+
+.link-action a:hover {
+    color: white;
+    background: #3E97D1;
+}
+
+#about_manpage {
+	position: absolute;
+	top: 5px;
+	right: 37px;
+	font: bold 18px 'Source Sans Pro', sans-serif;
+	padding: 2px 10px 2px 10px;
+	color: #0A67A3;
+}
+
+.about-manpage {
+	display: none;
+	position: absolute;
+	top: 35px;
+	right: 10px;
+	width: 250px;
+}
+
+.about-manpage-inner {
+	background: #3E97D1;
+	color: #E9E9E9;
+	font: 14px 'Source Sans Pro', sans-serif;
+	line-height: 17px;
+	padding: 7px 20px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+.about-manpage-inner a {
+	color: #FFF;
+	font-weight: bold;
+	margin: 0 2px;
+}
+.about-manpage:after {
+	bottom: 100%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-color: rgba(0, 0, 0, 0);
+	border-bottom-color: rgba(0,0,0,0.7);
+	border-width: 5px;
+	left: 169px;
+	margin-left: -10px;
+}
+.about-manpage .fork-link {
+	display: block;
+	background: #0A67A3; /* Old browsers */
+	background: -moz-linear-gradient(top,  #0A67A3 0%, #03426A 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#0A67A3), color-stop(100%,#03426A)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #0A67A3 0%,#03426A 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #0A67A3 0%,#03426A 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #0A67A3 0%,#03426A 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #0A67A3 0%,#03426A 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0A67A3', endColorstr='#03426A',GradientType=0 ); /* IE6-9 */
+	color: #FFF;
+	text-shadow: 0 1px 0 #222;
+	text-align: center;
+	padding: 10px 0;
+	font-size: 14px;
+	border: 1px solid #03426A;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	text-decoration: none;
+}
+
+/*
+I got some inspiration and some code for the search box from:
+http://speckyboy.com/2012/02/15/how-to-build-a-stylish-css3-search-box/
+*/
+.cf:before, .cf:after{
+    content:"";
+    display:table;
+}
+ 
+.cf:after{
+    clear:both;
+}
+ 
+.cf{
+    zoom:1;
+}
+
+.form-wrapper {
+    width: 540px;
+    padding: 15px;
+    margin: 20px auto 15px auto;
+    background: #444;
+    background: rgba(0,0,0,.2);
+    border-radius: 10px;
+    box-shadow: 0 1px 1px rgba(0,0,0,.4) inset, 0 1px 0 rgba(255,255,255,.2);
+}
+ 
+.form-wrapper input {
+    width: 420px;
+    height: 20px;
+    padding: 10px 5px;
+    float: left;    
+    font: bold 18px 'Source Sans Pro', sans-serif;
+    border: 0;
+    background: #eee;
+    border-radius: 3px 0 0 3px;      
+}
+ 
+.form-wrapper input:focus {
+    outline: 0;
+    background: #fff;
+    box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
+}
+ 
+.form-wrapper input::-webkit-input-placeholder {
+   color: #999;
+   font-weight: normal;
+   font-style: italic;
+}
+ 
+.form-wrapper input:-moz-placeholder {
+    color: #999;
+    font-weight: normal;
+    font-style: italic;
+}
+ 
+.form-wrapper input:-ms-input-placeholder {
+    color: #999;
+    font-weight: normal;
+    font-style: italic;
+}    
+ 
+/* Form submit button */
+.form-wrapper button {
+    overflow: visible;
+    position: relative;
+    float: right;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    height: 40px;
+    width: 110px;
+    font: bold 20px/40px 'Source Sans Pro', sans-serif;
+    color: #fff;
+    text-transform: uppercase;
+    background: #0A67A3;
+    border-radius: 0 3px 3px 0;      
+    text-shadow: 0 -1px 0 rgba(0, 0 ,0, .3);
+}   
+   
+.form-wrapper button:hover{     
+    background: #3E97D1;
+}   
+   
+.form-wrapper button:active,
+.form-wrapper button:focus{   
+    background: #03426A;
+    outline: 0;   
+}
+ 
+.form-wrapper button:before { /* left arrow */
+    content: '';
+    position: absolute;
+    border-width: 8px 8px 8px 0;
+    border-style: solid solid solid none;
+    border-color: transparent #0A67A3 transparent;
+    top: 12px;
+    left: -6px;
+}
+ 
+.form-wrapper button:hover:before{
+    border-right-color: #3E97D1;
+}
+ 
+.form-wrapper button:focus:before,
+.form-wrapper button:active:before{
+        border-right-color: #03426A;
+}      
+ 
+.form-wrapper button::-moz-focus-inner { /* remove extra button spacing for Mozilla Firefox */
+    border: 0;
+    padding: 0;
+}
