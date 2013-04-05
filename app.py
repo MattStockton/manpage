@@ -28,14 +28,15 @@ def search():
     
     # Make sure there is a command
     if not command.split(" "):
-        return jsonify(success=False)
+        return jsonify(success=False, error_message="Invalid command")
     
     man_page = ManPageRetriever(command.split(" ")[0])
+    
+    if not man_page.supports_man_page():
+        return jsonify(success=False, error_message="Sorry, we do not support that command yet")
+
     man_page.run_retrieval()
         
-    if man_page.is_error:
-        return jsonify(success=False)
-
     # Grab the possible options in our search
     command_options = [flag for flag in OptionInfo.split_into_possible_options(command)]
     # Find the descriptions of the options we used in our search

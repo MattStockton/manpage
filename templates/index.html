@@ -9,8 +9,8 @@
 
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 
-	<link rel="icon" type="image/png" href="static/images/favicon.png">
-	<link type="text/css" rel="stylesheet" href="static/css/app.css"/>
+	<link rel="icon" type="image/png" href="/static/images/favicon.png">
+	<link type="text/css" rel="stylesheet" href="/static/css/app.css"/>
 	
 	{% include 'ga.script' %}
 	
@@ -24,8 +24,7 @@
 		<div class="about-manpage-inner">
 			<p>This is a small experiment made by <a href="http://mattstockton.com" target="_blank">Matt Stockton</a> to play around with Flask, Python, Heroku, and various libraries. </p>
 			<p>manPage.me is a quick way to understand arguments being passed to linux commands. Instead of grep'ing through a manpage, just type the command here and see what each argument does.</p>
-			<p>manPage.me grabs information from the man pages hosted on linux.die.net</p>
-			<p>Some queries might not work well for you. The regex / parsing is a bit dumb right now, and I'm not handling piped commmands or other fancy things yet. Drop me an email if you have suggestions or questions.</p>
+			<p>Some queries might not work well for you. The regex / parsing needs some refinement, and I'm not handling piped commmands or other fancy things yet. Drop me an email if you have suggestions or questions.</p>
 			<p><a href="https://github.com/MattStockton/manpage" target="_blank" class="fork-link">Fork the project on GitHub</a></p>
 		</div>
 	</div>
@@ -54,8 +53,9 @@ $(document).ready(function(){
 	var row_template = _.template('<div class="search-row"><div class="search-option"><%= arg %></div>' +
 			'<div class="search-description"><%= description %></div></div>');
 	
-	var show_error = function(){
-		$("#search_results").append(row_template({ arg : "There was a problem searching", description : "Sorry, we had a problem with your search. Please try again"}));
+	var show_error = function(description){
+		description = description || "Sorry, we had a problem with your search. Please try again"
+		$("#search_results").append(row_template({ arg : "There was a problem searching", description : description}));
 	};
 	
     $(".js-command-form").submit(function(){
@@ -78,7 +78,7 @@ $(document).ready(function(){
    							$("#search_results").append(row_template({ arg : cur_arg[0], description : cur_arg[1]}));
    						});	
    					} else {
-   						show_error();
+   						show_error(data.error_message);
    					}
    					spinner.stop();
    			}).fail(function(){

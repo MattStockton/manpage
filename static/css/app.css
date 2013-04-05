@@ -1,5 +1,5 @@
 #search_results {
-    width: 750px;
+    width: 700px;
     margin: 0px auto;
     min-height: 100px;
 }
@@ -52,7 +52,6 @@
 }
 
 .about-manpage {
-	display: none;
 	position: absolute;
 	top: 35px;
 	right: 10px;
