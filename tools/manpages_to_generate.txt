@@ -1,3 +1,16 @@
 grep
 ls
 curl
+ps
+tar
+ssh
+sort
+gzip
+shutdown
+df
+rm
+cp
+mv
+mkdir
+tail
+ping

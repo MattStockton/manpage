@@ -1,6 +1,7 @@
 #search_results {
     width: 700px;
     margin: 0px auto;
+    padding: 0px 0px 30px 0px;
     min-height: 100px;
 }
 
@@ -107,6 +108,20 @@
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 	text-decoration: none;
+}
+
+#footer {
+   	position:fixed;
+   	left:0px;
+   	bottom:0px;
+   	height:30px;
+   	width:100%;
+   	background:#3E97D1;
+   	font: 14px 'Source Sans Pro', sans-serif;
+   	padding: 2px 10px 2px 10px;
+   	line-height: 30px;
+	color: #E9E9E9;
+	text-align: center;
 }
 
 /*

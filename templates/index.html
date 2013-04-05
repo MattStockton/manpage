@@ -24,6 +24,7 @@
 		<div class="about-manpage-inner">
 			<p>This is a small experiment made by <a href="http://mattstockton.com" target="_blank">Matt Stockton</a> to play around with Flask, Python, Heroku, and various libraries. </p>
 			<p>manPage.me is a quick way to understand arguments being passed to linux commands. Instead of grep'ing through a manpage, just type the command here and see what each argument does.</p>
+			<p>Only a small set of commands are currently supported (see the footer). I'll keep adding more as time goes on.</p>
 			<p>Some queries might not work well for you. The regex / parsing needs some refinement, and I'm not handling piped commmands or other fancy things yet. Drop me an email if you have suggestions or questions.</p>
 			<p><a href="https://github.com/MattStockton/manpage" target="_blank" class="fork-link">Fork the project on GitHub</a></p>
 		</div>
@@ -37,10 +38,10 @@
         <button type="submit">Search</button>
     </form>
     <div id="search_suggestions" class="link-action">Try an example for a <a href="#curl" class="js-curl-example">curl</a> , <a href="#grep" class="js-grep-example">grep</a> , or <a href="#ls" class="js-ls-example">ls</a> command</div>
-
 	
 	<div id="search_results">
 	</div>
+	<div id="footer"><strong>Supported Commands:</strong> {{ supported_commands }} </div>
 </body>
 
 <script src="static/js/jquery-1.8.2.min.js"></script>

@@ -34,6 +34,15 @@ class ManPageRetriever(object):
     """A class to retrieve man page information"""
     
     ROOT_MANPAGE_PATH = "tools/manpage_text/"
+    CACHED_SUPPORTED_PAGES = None
+    
+    @staticmethod
+    def get_supported_pages():
+        if not ManPageRetriever.CACHED_SUPPORTED_PAGES:
+            ManPageRetriever.CACHED_SUPPORTED_PAGES = \
+                [filename[:-4] for filename in os.listdir(ManPageRetriever.ROOT_MANPAGE_PATH)]
+        
+        return ManPageRetriever.CACHED_SUPPORTED_PAGES       
     
     def __init__(self, man_page):
         self.man_page = man_page.strip()

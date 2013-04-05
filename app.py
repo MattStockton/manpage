@@ -20,7 +20,8 @@ def error_encountered(error):
 
 @app.route("/", methods=['GET'])
 def index():
-    return render_template("index.html", ga_account=GA_ACCOUNT, ga_domain_name=GA_DOMAIN_NAME)
+    supported_commands = ", ".join(ManPageRetriever.get_supported_pages())
+    return render_template("index.html", ga_account=GA_ACCOUNT, ga_domain_name=GA_DOMAIN_NAME, supported_commands=supported_commands)
 
 @app.route("/search", methods=['POST'])
 def search():
