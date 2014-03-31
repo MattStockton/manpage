@@ -14,4 +14,4 @@ There is a utility script in the /tools directory, which provides the mechanism 
 
 ## See ManPage in action
 
-Visit [manpage.me](http://manpage.me/) to try the demo
+Visit [manpage.mattstockton.com](http://manpage.mattstockton.com/) to try the demo
